@@ -1,0 +1,148 @@
+//ver 1.7
+
+namespace com.michalsadel.data;
+
+struct WheelTypeFloat{
+    rearLeft:float;
+    rearRight:float;
+    frontLeft:float;
+    frontRight:float;
+}
+
+struct WheelTypeByte{
+    rearLeft:byte;
+    rearRight:byte;
+    frontLeft:byte;
+    frontRight:byte;
+}
+
+struct WorlPositionCoordinates{
+    x:float;
+    y:float;
+    z:float;
+}
+
+struct CarData{
+   worldPosition:WorlPositionCoordinates; // world co-ordinates of vehicle
+   lastLapTime:float;
+   currentLapTime:float;
+   bestLapTime:float;
+   sector1Time:float;
+   sector2Time:float;
+   lapDistance:float;
+   driverId:byte;
+   teamId:byte;
+   carPosition:byte;     // UPDATED: track positions of vehicle
+   currentLapNum:byte;
+   tyreCompound:byte;	// compound of tyre – 0 = ultra soft, 1 = super soft, 2 = soft, 3 = medium, 4 = hard, 5 = inter, 6 = wet
+   inPits:byte;           // 0 = none, 1 = pitting, 2 = in pit area
+   sector:byte;           // 0 = sector1, 1 = sector2, 2 = sector3
+   currentLapInvalid:byte; // current lap invalid - 0 = valid, 1 = invalid
+   penalties:byte;  // NEW: accumulated time penalties in seconds to be added
+}
+
+table Telemetry{
+    time:float;//0-3
+    lapTime:float;//4-7
+    lapDistance:float;//8
+    totalDistance:float;//12
+    x:float;//16	// World space position
+    y:float;//20	// World space position
+    z:float;//24	// World space position
+    speed:float;//28	// Speed of car in MPH
+    xv:float;//32	// Velocity in world space
+    yv:float;//36	// Velocity in world space
+    zv:float;//40	// Velocity in world space
+    xr:float;//44	// World space right direction
+    yr:float;//48	// World space right direction
+    zr:float;//52	// World space right direction
+    xd:float;//56	// World space forward direction
+    yd:float;//60	// World space forward direction
+    zd:float;//64	// World space forward direction
+    suspPos:WheelTypeFloat;//68	// Note: All wheel arrays have the order:
+    suspVel:WheelTypeFloat;//84	// RL, RR, FL, FR
+    wheelSpeed:WheelTypeFloat;//100
+    throttle:float;//116
+    steer:float;//120
+    brake:float;//124
+    clutch:float;//128
+    gear:float;//132
+    gforceLat:float;//136
+    gforceLon:float;//140
+    lap:float;//144
+    engineRate:float;//148
+    sliProNativeSupport:float;//152	// SLI Pro support
+    carPosition:float;//156	// car race position
+    kersLevel:float;//160	// kers energy left
+    kersMaxLevel:float;//164	// kers maximum energy
+    drs:float;//168	// 0 = off, 1 = on
+    tractionControl:float;//172	// 0 (off) - 2 (high)
+    antiLockBrakes:float;//176	// 0 (off) - 1 (on)
+    fuelInTank:float;//180	// current fuel mass
+    fuelCapacity:float;//184	// fuel capacity
+    inPits:float;//188	// 0 = none, 1 = pitting, 2 = in pit area
+    sector:float;//192	// 0 = sector1, 1 = sector2, 2 = sector3
+    sector1Time:float;//196	// time of sector1 (or 0)
+    sector2Time:float;//200	// time of sector2 (or 0)
+    brakesTemp:WheelTypeFloat;//204	// brakes temperature (centigrade)
+    tyresPressure:WheelTypeFloat;//220	// tyres pressure PSI
+    teainfo:float;//236	// team ID
+    totalLaps:float;//240	// total number of laps in this race
+    trackSize:float;//244	// track size meters
+    lastLapTime:float;//248	// last lap time
+    maxRpm:float;//252	// cars max RPM, at which point the rev limiter will kick in
+    idleRpm:float;//256	// cars idle RPM
+    maxGears:float;//260	// maximum number of gears
+    sessionType:float;//264	// 0 = unknown, 1 = practice, 2 = qualifying, 3 = race
+    drsAllowed:float;//268	// 0 = not allowed, 1 = allowed, -1 = invalid / unknown
+    trackNumber:float;//272	// -1 for unknown, 0-21 for tracks
+    vehicleFIAFlags:float;//276	// -1 = invalid/unknown, 0 = none, 1 = green, 2 = blue, 3 = yellow, 4 = red
+    era:float;//280                    	// era, 2017 (modern) or 1980 (classic)
+    engineTemperature:float;//284  	// engine temperature (centigrade)
+    gforceVert:float;//288	// vertical g-force component
+    angVelX:float;//292	// angular velocity x-component
+    angVelY:float;//296	// angular velocity y-component
+    angVelZ:float;//300	// angular velocity z-component
+    tyresTemperature:WheelTypeByte;//304	// tyres temperature (centigrade)
+    tyresWear:WheelTypeByte;//308	// tyre wear percentage
+    tyreCompound:byte;	// compound of tyre – 0 = ultra soft, 1 = super soft, 2 = soft, 3 = medium, 4 = hard, 5 = inter, 6 = wet
+    frontBrakeBias:byte;         // front brake bias (percentage)
+    fuelMix:byte;                 // fuel mix - 0 = lean, 1 = standard, 2 = rich, 3 = max
+    currentLapInvalid:byte;    	// current lap invalid - 0 = valid, 1 = invalid
+    tyresDamage:WheelTypeByte;	// tyre damage (percentage)
+    frontLeftWingDamage:byte;	// front left wing damage (percentage)
+    frontRightWingDamage:byte;	// front right wing damage (percentage)
+    rearWingDamage:byte;	// rear wing damage (percentage)
+    engineDamage:byte;	// engine damage (percentage)
+    gearBoxDamage:byte;	// gear box damage (percentage)
+    exhaustDamage:byte;	// exhaust damage (percentage)
+    pitLimiterStatus:byte;	// pit limiter status – 0 = off, 1 = on
+    pitSpeedLimit:byte;	// pit speed limit in mph
+    sessionTimeLeft:float;  // NEW: time left in session in seconds
+    revLightsPercent:byte;  // NEW: rev lights indicator (percentage)
+    isSpectating:byte;  // NEW: whether the player is spectating
+    spectatorCarIndex:byte;  // NEW: index of the car being spectated
+    // Car data
+    nucars:byte;              	// number of cars in data
+    player_car_index:byte;        	// index of player's car in the array
+    car_data1:CarData;   // data for all cars on track
+    car_data2:CarData;   // data for all cars on track
+    car_data3:CarData;   // data for all cars on track
+    car_data4:CarData;   // data for all cars on track
+    car_data5:CarData;   // data for all cars on track
+    car_data6:CarData;   // data for all cars on track
+    car_data7:CarData;   // data for all cars on track
+    car_data8:CarData;   // data for all cars on track
+    car_data9:CarData;   // data for all cars on track
+    car_data10:CarData;   // data for all cars on track
+    car_data11:CarData;   // data for all cars on track
+    car_data12:CarData;   // data for all cars on track
+    car_data13:CarData;   // data for all cars on track
+    car_data14:CarData;   // data for all cars on track
+    car_data15:CarData;   // data for all cars on track
+    car_data16:CarData;   // data for all cars on track
+    car_data17:CarData;   // data for all cars on track
+    car_data18:CarData;   // data for all cars on track
+    car_data19:CarData;   // data for all cars on track
+    car_data20:CarData;   // data for all cars on track
+}
